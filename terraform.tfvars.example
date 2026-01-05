@@ -1,0 +1,30 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and update the values
+
+# Project configuration
+project_name = "minikino"
+environment  = "production"
+
+# Domain configuration
+domain_name = "your-domain.com"  # Replace with your actual domain
+
+# Network configuration
+vpc_cidr = "10.0.0.0/16"
+
+# AWS Region
+aws_region = "us-east-1"  # us-east-1 is typically the cheapest region
+
+# Instance configuration
+instance_type = "t3.small"  # Small instance with 2GB memory for our 1.5GB task
+
+# MongoDB configuration
+# mongo_data_path = "/mnt/mongo-data"  # Optional: Override default MongoDB data mount path
+
+# Sensitive parameters - Copy to terraform.tfvars and update with real values
+jwt_private_key   = "your-super-secret-jwt-key-change-this"
+mongo_root_user   = "root"
+mongo_root_password = "your-secure-mongo-password-change-this"
+
+# Budget configuration
+budget_amount = 50  # Monthly budget limit in USD
+alert_email   = "your-email@example.com"  # Email address for budget alerts
