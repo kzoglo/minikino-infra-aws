@@ -15,7 +15,7 @@ vpc_cidr = "10.0.0.0/16"
 aws_region = "us-east-1"  # us-east-1 is typically the cheapest region
 
 # Instance configuration
-instance_type = "t3.small"  # Small instance with 2GB memory for our 1.5GB task
+instance_types = ["t3.small", "t3a.small", "t3.medium"]  # Small instances with >=2GB memory
 
 # MongoDB configuration
 # mongo_data_path = "/mnt/mongo-data"  # Optional: Override default MongoDB data mount path

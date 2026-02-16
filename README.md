@@ -36,7 +36,7 @@ This Terraform configuration deploys the MiniKino cinema application to AWS with
 Edit `main.tf` to customize:
 
 - `domain_name`: Your domain (optional)
-- `instance_type`: EC2 instance type (default: t3.small)
+- `instance_types`: EC2 instance types for ASG mixed instances (default: ["t3.small"])
 - `project_name`: Project name (default: minikino)
 - `environment`: Environment name (default: production)
 

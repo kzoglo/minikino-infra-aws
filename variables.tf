@@ -22,10 +22,10 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.small"
+variable "instance_types" {
+  description = "EC2 instance types for ASG mixed instances"
+  type        = list(string)
+  default     = ["t3.small"]
 }
 
 variable "aws_region" {

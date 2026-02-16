@@ -2,7 +2,7 @@
 resource "aws_launch_template" "ecs_spot" {
   name_prefix   = "${local.name_prefix}-ecs-spot-"
   image_id      = data.aws_ami.ecs.id
-  instance_type = var.instance_type
+  instance_type = var.instance_types[0]
 
   vpc_security_group_ids = [aws_security_group.ecs_host.id]
 
@@ -53,6 +53,12 @@ resource "aws_autoscaling_group" "ecs" {
       launch_template_specification {
         launch_template_id = aws_launch_template.ecs_spot.id
         version            = "$Latest"
+      }
+      dynamic "override" {
+        for_each = var.instance_types
+        content {
+          instance_type = override.value
+        }
       }
     }
   }
