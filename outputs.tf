@@ -65,7 +65,7 @@ output "cloudfront_distribution_id" {
 }
 
 output "parameter_store_paths" {
-  description = "Parameter Store paths for environment variables"
+  description = "Parameter Store paths for sensitive environment variables"
   value = {
     jwt_key        = aws_ssm_parameter.jwt_key.name
     mongo_user     = aws_ssm_parameter.mongo_user.name
