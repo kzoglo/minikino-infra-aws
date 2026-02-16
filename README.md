@@ -36,25 +36,21 @@ This Terraform configuration deploys the MiniKino cinema application to AWS with
 Edit `main.tf` to customize:
 
 - `domain_name`: Your domain (optional)
-- `instance_type`: EC2 instance type (default: t3.small)
+- `instance_types`: EC2 instance types for ASG mixed instances (default: ["t3.small"])
 - `project_name`: Project name (default: minikino)
 - `environment`: Environment name (default: production)
 
 ### 2. Update Parameter Store Values
 
-**Important**: Update the sensitive values in `parameters.tf`:
+**Important**: Set the sensitive values via Terraform variables (recommended in `terraform.tfvars` or via `-var`). These values are written into Parameter Store by Terraform:
 
-```terraform
-# JWT Private Key - CHANGE THIS!
-resource "aws_ssm_parameter" "jwt_key" {
-  value = "your-super-secret-jwt-key-change-this-in-production"
-}
-
-# MongoDB Password - CHANGE THIS!
-resource "aws_ssm_parameter" "mongo_password" {
-  value = "example-password-change-this-in-production"
-}
+```hcl
+# terraform.tfvars
+jwt_private_key     = "your-super-secret-jwt-key-change-this-in-production"
+mongo_root_password = "example-password-change-this-in-production"
 ```
+
+Terraform also writes non-sensitive deployment parameters (ECR URL, ECS names, CloudFront values, etc.) automatically.
 
 ### 3. Backend Configuration
 
@@ -129,6 +125,7 @@ aws ssm describe-parameters --filters "Key=Name,Values=/minikino-production/*"
 
 # Get parameter values
 aws ssm get-parameter --name "/minikino-production/jwt-private-key" --with-decryption
+aws ssm get-parameter --name "/minikino-production/cloudfront-url"
 ```
 
 ### Update Parameters
@@ -234,9 +231,19 @@ terraform output efs_file_system_id      # EFS file system for MongoDB data
 ### Parameter Store Paths
 
 ```bash
-# Environment variable paths
+# Sensitive parameter paths
 terraform output parameter_store_paths   # JWT key, MongoDB credentials
 ```
+
+Additional deployment parameters are stored under the same prefix, for example:
+
+- `/minikino-production/ecr-repository-url`
+- `/minikino-production/ecs-cluster-name`
+- `/minikino-production/ecs-service-name`
+- `/minikino-production/s3-frontend-bucket`
+- `/minikino-production/cloudfront-url`
+- `/minikino-production/cloudfront-domain`
+- `/minikino-production/cloudfront-distribution-id`
 
 ### Example Usage
 
